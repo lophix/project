@@ -1,4 +1,4 @@
-package com.flag.code;
+package com.flag.reduce.test.v1;
 
 import java.io.IOException;
 
