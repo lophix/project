@@ -27,6 +27,12 @@ public class ClientScanner implements Runnable {
             encoded.writeBytes(msg.getBytes());
             channel.writeAndFlush(encoded);
             msg = sc.nextLine();
+            if (msg.equals("exit"))
+                try {
+                    channel.closeFuture().sync();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
         }
         sc.close();
     }
