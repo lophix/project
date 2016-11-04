@@ -21,7 +21,7 @@ public class ClientReq implements Runnable {
             channel.writeAndFlush(encoded);
             System.out.println("======== query");
             try {
-                Thread.sleep(2000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

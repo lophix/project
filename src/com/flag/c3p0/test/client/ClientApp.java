@@ -51,7 +51,7 @@ public class ClientApp implements Runnable {
         String remoteAddress = "127.0.0.1";
         int port = 8080;
         ExecutorService executorService = Executors.newCachedThreadPool();
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 30; i++) {
             executorService.submit(new ClientApp(remoteAddress, port));
         }
 //        new ClientApp(remoteAddress, port).run();

@@ -18,12 +18,13 @@ public class TestDaoImpl implements ITestDao {
         String result = null;
         try {
             Connection conn = DBConnecter.getConnection();
-            String sql = "SELECT * FROM ys_charging_db.signin_info";
+            String sql = "SELECT * FROM ys_charging_db.post_report_records";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             if (rs != null){
                 result = "OK";
             }
+            DBConnecter.close(rs, pstmt, conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
