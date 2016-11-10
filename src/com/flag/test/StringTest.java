@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class StringTest {
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         String a = "a";
         String b = "b";
         String abc = "abc";
@@ -24,6 +24,11 @@ public class StringTest {
         for (int i = 0; i < 10; i++){
             System.out.println(String.format("%08d", i));
         }
+    }*/
+
+    public static void main(String[] args) {
+        String text = "text/txt";
+        System.out.println(text.endsWith("txt"));
     }
 
 }
