@@ -15,13 +15,11 @@ public class ConcurrentMain {
     public static void main(String[] args) {
         new Thread(()->{
             while (n.get() < 20) {
-                int i = num.getAndIncrement();
-                while (i > 0){
-                    i = num.get();
+                while (num.getAndIncrement() > 0){
                 }
-                System.out.println("start put");
+                System.out.println("start put 1");
                 map.putIfAbsent("test", "thread : " + n);
-                System.out.println("put : " + map.get("test"));
+                System.out.println("1 put : " + n);
                 n.getAndIncrement();
                 num.set(0);
                 try {
@@ -33,9 +31,23 @@ public class ConcurrentMain {
         }).start();
         new Thread(()->{
             while (n.get() < 20) {
-                int i = num.getAndIncrement();
-                while (i > 0){
-                    i = num.get();
+                while (num.getAndIncrement() > 0){
+                }
+                System.out.println("start put 2");
+                map.putIfAbsent("test", "thread : " + n);
+                System.out.println("2 put : " + n);
+                n.getAndIncrement();
+                num.set(0);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        new Thread(()->{
+            while (n.get() < 20) {
+                while (num.getAndIncrement() > 0){
                 }
                 System.out.println("remove : " + map.get("test"));
                 map.remove("test");
