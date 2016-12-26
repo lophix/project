@@ -18,8 +18,6 @@ public class IntIntegerTestMain {
             map.put("world", "world" + i);
             list.add(map);
         }
-        list.forEach((s) -> {
-            System.out.println(s.get("hello") + s.get("world"));
-        });
+        list.forEach(System.out::println);
     }
 }

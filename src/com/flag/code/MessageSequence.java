@@ -1,13 +1,14 @@
 package com.flag.code;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MessageSequence {
 	
     public static void main(String[] args) {
     	System.out.println("Its just a test for my personal computer");
         String str = "xmlxxx:xxdz:edit";
-        String[] strs = str.split(str);
-        for (String s : strs){
-
-        }
+        List<String> list = Arrays.asList(str.split(":"));
+        list.forEach(System.out::println);
     }
 }
