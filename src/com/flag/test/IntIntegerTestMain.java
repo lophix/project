@@ -19,5 +19,24 @@ public class IntIntegerTestMain {
             list.add(map);
         }
         list.forEach(System.out::println);
+
+        System.out.println("*************************************************");
+        print();
+    }
+
+    private static void print(){
+        int size = 10;
+        List<List<Integer>> numList = new ArrayList<>(size);
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < size*3; i++){
+            list.add(i);
+        }
+        for (int i = 0; i < size; i++){
+            numList.add(new ArrayList<>());
+        }
+        for (int i = 0; i < list.size(); i++){
+            numList.get(i%size).add(list.get(i));
+        }
+        numList.forEach(System.out::println);
     }
 }
