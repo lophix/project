@@ -22,6 +22,11 @@ public class IntIntegerTestMain {
 
         System.out.println("*************************************************");
         print();
+
+        System.out.println("=======================================================");
+        Map<String, byte[]> map = new HashMap<>();
+        map.put("1", new byte[]{1});
+        paramTest(map);
     }
 
     private static void print(){
@@ -38,5 +43,9 @@ public class IntIntegerTestMain {
             numList.get(i%size).add(list.get(i));
         }
         numList.forEach(System.out::println);
+    }
+
+    private static void paramTest(Map<String, ?> map){
+        System.out.println(map.get("1"));
     }
 }
