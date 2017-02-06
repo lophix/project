@@ -20,7 +20,7 @@ public class LambdaTest {
         for (int i = 0; i < 10; i++) {
             strings.add(""+i);
         }
-        Iterator it = strings.iterator();
+        Iterator<?> it = strings.iterator();
         it.forEachRemaining(System.out::println);
     }
 }
