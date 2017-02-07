@@ -12,7 +12,8 @@ import java.util.List;
  */
 public class LambdaTest {
     public static void main(String[] args) {
-        printIterator();
+//        printIterator();
+        testBreak();
     }
 
     private static void printIterator(){
@@ -22,5 +23,18 @@ public class LambdaTest {
         }
         Iterator<?> it = strings.iterator();
         it.forEachRemaining(System.out::println);
+    }
+
+    private static void testBreak(){
+        List<String> strings = new ArrayList<>(10);
+        for (int i = 0; i < 10; i++){
+            strings.add(i + "");
+        }
+        strings.forEach(s -> {
+            if (s.equals("4")){
+                return;
+            }
+            System.out.println(s);
+        });
     }
 }
