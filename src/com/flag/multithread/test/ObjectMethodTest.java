@@ -1,4 +1,4 @@
-package multithread.test;
+package com.flag.multithread.test;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 

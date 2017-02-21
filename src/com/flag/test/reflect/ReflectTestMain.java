@@ -13,8 +13,9 @@ import java.lang.reflect.Method;
 public class ReflectTestMain {
 
     public static void main(String[] args) throws Exception {
-        Class clz = Class.forName("com.flag.test.reflect.MyPrivateObject");
-        MyPrivateObject obj = (MyPrivateObject) reflectMethod(clz);
+//        Class clz = Class.forName("com.flag.test.reflect.MyPrivateObject");
+//        Class<MyPrivateObject> cls = MyPrivateObject.class;
+        MyPrivateObject obj = reflectMethod(MyPrivateObject.class);
         System.out.println("print from main method : " + obj.getName() + "\t" + obj.getPassword());
     }
 

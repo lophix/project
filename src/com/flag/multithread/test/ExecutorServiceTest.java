@@ -1,4 +1,4 @@
-package multithread.test;
+package com.flag.multithread.test;
 
 import java.util.ArrayList;
 import java.util.List;
