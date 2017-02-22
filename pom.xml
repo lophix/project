@@ -22,6 +22,14 @@
     <url>https://mvnrepository.com/artifact</url>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-minikdc -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-minikdc</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>

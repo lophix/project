@@ -24,7 +24,11 @@ public class MessageSequence {
         List<String> list = Arrays.asList(str.split(":"));
         list.forEach(System.out::println);
 //        Float f = Float.valueOf(String.format("%.3f", null));
-        System.out.println(String.format("%.3f", null));
+        Double d = 2.5D;
+        if (d > 0){
+            d = null;
+        }
+        System.out.println(String.format("%.3f", d));
         log.info(" log test {}", str);
         System.out.println("********************************************************");
         print1();
