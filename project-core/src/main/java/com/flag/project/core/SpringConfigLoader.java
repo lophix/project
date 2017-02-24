@@ -1,4 +1,4 @@
-package com.flag.project.webserver;
+package com.flag.project.core;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

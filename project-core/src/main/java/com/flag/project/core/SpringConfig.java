@@ -1,4 +1,4 @@
-package com.flag.project.webserver;
+package com.flag.project.core;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ImportResource;
  * @Version
  */
 @Configuration
-@ComponentScan("com.flag.project.webserver")
+@ComponentScan("com.flag.project")
 @ImportResource("spring-context.xml")
 interface SpringConfig{
 }
