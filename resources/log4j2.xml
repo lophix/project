@@ -15,7 +15,7 @@
                 <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="NEUTRAL"/>
             </Filters>
             <Policies>
-                <SizeBasedTriggeringPolicy size="50 MB"/>
+                <SizeBasedTriggeringPolicy size="50MB"/>
             </Policies>
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
@@ -26,7 +26,7 @@
 
     </Appenders>
     <Loggers>
-        <Root level="INFO">
+        <Root level="${log4j2.rootlevel}">
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="Console" level="INFO"/>
         </Root>

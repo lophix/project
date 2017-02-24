@@ -2,16 +2,15 @@ package com.flag.c3p0.test.db;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DataSources;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.beans.PropertyVetoException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -29,6 +28,8 @@ public class DBConnecter {
     private static String pwd = null;
 
     private static ComboPooledDataSource ds_pooled;
+
+    private static final Logger log = LogManager.getLogger(DBConnecter.class);
 
     /**
      *  加载数据库连接的配置文件和驱动
@@ -51,8 +52,10 @@ public class DBConnecter {
             ds_pooled.setMinPoolSize(5);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            log.error("Exception happened message is {}, cause by {}", e.getMessage(), e.getCause());
         } catch (IOException e) {
             e.printStackTrace();
+            log.error("IO exception ...");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,7 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>project</groupId>
     <artifactId>project</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>project-webserver</module>
+    </modules>
     <name>maven</name>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -19,6 +23,29 @@
         </plugins>
     </build>
 
+    <properties>
+        <hadoop.minikdc.version>2.7.1</hadoop.minikdc.version>
+        <junit.version>4.12</junit.version>
+        <mrunit.version>1.1.0</mrunit.version>
+        <hadoop.common.version>2.7.3</hadoop.common.version>
+        <guava.version>19.0</guava.version>
+        <jboss.version>1.4.11.Final</jboss.version>
+        <log4j.version>2.4.1</log4j.version>
+        <netty.all.version>4.1.5.Final</netty.all.version>
+        <protobuf.vrsion>3.1.0</protobuf.vrsion>
+        <mysql.connector.version>5.1.39</mysql.connector.version>
+        <c3p0.version>0.9.5.2</c3p0.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <log4j2.rootlevel>INFO</log4j2.rootlevel>
+            </properties>
+        </profile>
+    </profiles>
+
     <url>https://mvnrepository.com/artifact</url>
 
     <dependencies>
@@ -27,21 +54,21 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-minikdc</artifactId>
-            <version>2.7.1</version>
+            <version>${hadoop.minikdc.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.mrunit/mrunit -->
         <dependency>
             <groupId>org.apache.mrunit</groupId>
             <artifactId>mrunit</artifactId>
-            <version>1.1.0</version>
+            <version>${mrunit.version}</version>
         </dependency>
 
 
@@ -49,84 +76,78 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
-            <version>2.7.3</version>
+            <version>${hadoop.common.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>2.7.3</version>
+            <version>${hadoop.common.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling -->
         <dependency>
             <groupId>org.jboss.marshalling</groupId>
             <artifactId>jboss-marshalling</artifactId>
-            <version>1.4.11.Final</version>
+            <version>${jboss.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-serial -->
         <dependency>
             <groupId>org.jboss.marshalling</groupId>
             <artifactId>jboss-marshalling-serial</artifactId>
-            <version>1.4.11.Final</version>
+            <version>${jboss.version}</version>
         </dependency>
 
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.4.1</version>
+            <version>${log4j.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.4.1</version>
+            <version>${log4j.version}</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.5.Final</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>3.1.0</version>
+            <version>${protobuf.vrsion}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
+            <version>${mysql.connector.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.5.Final</version>
+            <version>${netty.all.version}</version>
         </dependency>
 
         <!-- c3p0-->
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.9.2.1</version>
+            <version>${c3p0.version}</version>
         </dependency>
     </dependencies>
 

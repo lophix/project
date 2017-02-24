@@ -1,4 +1,4 @@
-package com.flag.test;
+package com.flag.test.enumeration;
 
 import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
@@ -13,6 +13,10 @@ import java.util.List;
 public class EnumerationTest {
 
     public static void main(String[] args) {
+        printNetworkInfo();
+    }
+
+    private static void printNetworkInfo(){
         Enumeration<NetworkInterface> nis = null;
         try {
             nis = NetworkInterface.getNetworkInterfaces();
