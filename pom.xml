@@ -7,6 +7,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>project-webserver</module>
+        <module>project-fire</module>
+        <module>project-core</module>
     </modules>
     <name>maven</name>
     <build>
@@ -49,13 +51,6 @@
     <url>https://mvnrepository.com/artifact</url>
 
     <dependencies>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-minikdc -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-minikdc</artifactId>
-            <version>${hadoop.minikdc.version}</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
