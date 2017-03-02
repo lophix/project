@@ -27,7 +27,7 @@ public class DataPackage {
     /**
      * 数据单元长度 0~66531
      */
-    private int dataLength;
+    private short dataLength;
     /**
      * 数据单元
      */
@@ -36,6 +36,10 @@ public class DataPackage {
      * 效验码
      */
     private byte checkCode;
+    /**
+     * 是否为脏数据
+     */
+    private boolean isDirtyData = false;
 
     public byte getCmm() {
         return cmm;
@@ -69,11 +73,11 @@ public class DataPackage {
         this.encryptType = encryptType;
     }
 
-    public int getDataLength() {
+    public short getDataLength() {
         return dataLength;
     }
 
-    public void setDataLength(int dataLength) {
+    public void setDataLength(short dataLength) {
         this.dataLength = dataLength;
     }
 
@@ -91,5 +95,25 @@ public class DataPackage {
 
     public void setCheckCode(byte checkCode) {
         this.checkCode = checkCode;
+    }
+
+    public boolean isDirtyData() {
+        return isDirtyData;
+    }
+
+    public void setDirtyData(boolean dirtyData) {
+        isDirtyData = dirtyData;
+    }
+
+    @Override
+    public String toString() {
+        return "command is " + cmm + "\n"
+                + "reply is " + reply + "\n"
+                + "car id is " + carId + "\n"
+                + "encrypt type is " + encryptType + "\n"
+                + "data length is " + dataLength + "\n"
+                + "data is " + data + "\n"
+                + "check code is " + checkCode + "\n"
+                + "is dirty data " + isDirtyData;
     }
 }
