@@ -1,5 +1,7 @@
 package com.flag.test.notnull;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.annotation.Nonnull;
 
 /**
@@ -20,7 +22,7 @@ public class MyNotNullTest {
         print(s);
     }
 
-    public static void print(@Nonnull String str) {
+    public static void print(@NotNull String str) {
         System.out.print(str);
     }
 

@@ -1,5 +1,7 @@
 package com.flag.util;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 /**
@@ -9,6 +11,7 @@ import org.junit.Test;
  * @Version
  */
 public class BigEndianDecodeUtil {
+    @Contract(pure = true)
     public static int bytes2Int(byte[] ary, int offset) {
         int value = 0;
         for (int i = 0; i < Integer.BYTES; i++) {
@@ -17,6 +20,7 @@ public class BigEndianDecodeUtil {
         return value;
     }
 
+    @Contract(pure = true)
     public static long bytes2Long(byte[] bytes, int offset) {
         long value = 0L;
         for (int i = 0; i < Long.BYTES; i++) {
@@ -25,6 +29,7 @@ public class BigEndianDecodeUtil {
         return value;
     }
 
+    @NotNull
     public static String byte2BitStr(byte b) {
         StringBuilder sb = new StringBuilder(8);
         for (int i = 0; i < 8; i++) {

@@ -1,7 +1,7 @@
 package com.flag.test.atomic;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -9,70 +9,102 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Create 2016-11-30-10:19
  */
 public class ConcurrentMain {
-    public static AtomicInteger num = new AtomicInteger(0);
-    public static Map<String, String> map = new ConcurrentHashMap<>();
-    static AtomicInteger n = new AtomicInteger(10);
-    public static void main(String[] args) {
-        new Thread(()->{
-            while (n.get() < 20) {
-                while (num.getAndIncrement() > 0){
-                }
-                System.out.println("start put 1");
-                map.putIfAbsent("test", "thread : " + n);
-                System.out.println("1 put : " + n);
-                n.getAndIncrement();
-                num.set(0);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        new Thread(()->{
-            while (n.get() < 20) {
-                while (num.getAndIncrement() > 0){
-                }
-                System.out.println("start put 2");
-                map.putIfAbsent("test", "thread : " + n);
-                System.out.println("2 put : " + n);
-                n.getAndIncrement();
-                num.set(0);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        new Thread(()->{
-            while (n.get() < 20) {
-                while (num.getAndIncrement() > 0){
-                }
-                System.out.println("remove : " + map.get("test"));
-                map.remove("test");
-                num.set(0);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+    public static void main(String[] args) throws InterruptedException {
+        final AtomicInteger count = new AtomicInteger(0);
+        final Map<String, String> map = new ConcurrentHashMap<>();
+        final AtomicInteger num = new AtomicInteger(10);
+        ExecutorService executorService = Executors.newCachedThreadPool(Thread::new);
+        executorService.submit(new PutJob(map, count, num, "Thread-1"));
+        executorService.submit(new PrintJob(map));
+        executorService.submit(new PutJob(map, count, num, "Thread-2"));
+        executorService.submit(new RemoveJob(map, num, count));
+        executorService.shutdown();
 
-        new Thread(()->{
-            while (n.get() < 20) {
-//                int i = num.get();
-//                while (i > 0){
-//                    i = num.get();
-//                }
-                System.out.println(map.get("test"));
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if (!executorService.awaitTermination(20000, TimeUnit.MILLISECONDS)) {
+            executorService.shutdownNow();
+        }
+        System.out.println("finally is : " + map.get("test"));
+    }
+}
+
+
+class PutJob implements Runnable {
+
+    private final Map<String, String> map;
+    private final AtomicInteger count;
+    private final AtomicInteger num;
+    private String name;
+
+    public PutJob(Map<String, String> map, AtomicInteger count, AtomicInteger num, String name) {
+        this.map = map;
+        this.count = count;
+        this.num = num;
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        while (num.get() < 20) {
+            while (count.getAndIncrement() > 0) {
+                if (num.get() >= 20){
+                    return;
                 }
             }
-        }).start();
+            System.out.println(name + " will put");
+            String result = map.putIfAbsent("test", "thread : " + num);
+            if (result == null) {
+                System.out.println(name + " putted : " + num);
+                num.getAndIncrement();
+            }
+            count.set(0);
+        }
+    }
+}
+
+class RemoveJob implements Runnable {
+
+    private final Map<String, String> map;
+    private final AtomicInteger num;
+    private final AtomicInteger count;
+
+    public RemoveJob(Map<String, String> map, AtomicInteger num, AtomicInteger count) {
+        this.map = map;
+        this.num = num;
+        this.count = count;
+    }
+
+    @Override
+    public void run() {
+        while (num.get() < 20) {
+            while (count.getAndIncrement() > 0) {
+                if (num.get() >= 20){
+                    return;
+                }
+            }
+            System.out.println("remove : " + map.get("test"));
+            map.remove("test");
+            count.set(0);
+        }
+    }
+}
+
+class PrintJob implements Runnable {
+
+    private final Map<String, String> map;
+    private String lastValue = null;
+
+    public PrintJob(Map<String, String> map) {
+        this.map = map;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            String value = map.get("test");
+            if (value != null && !value.equals(lastValue)) {
+                lastValue = value;
+                System.out.println("print value is " + value);
+            }
+        }
     }
 }
