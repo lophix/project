@@ -32,7 +32,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         log.info("init netty pipeline");
         ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO))
                 .addLast(new ReadTimeoutHandler(90, TimeUnit.SECONDS))
-                .addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, 65535, 2, 2, -4, 0, true))
+                .addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, 65535, 22, 2, 22, 0, true))
                 .addLast(new MsgDataDecoder())
                 .addLast(new MsgDataHandler())
                 .addLast(new MsgDataEncoder());

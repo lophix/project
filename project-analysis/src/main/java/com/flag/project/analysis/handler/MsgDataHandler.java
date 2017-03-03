@@ -15,7 +15,7 @@ public class MsgDataHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         DataPackage data = (DataPackage) msg;
-        System.out.println(data);
+//        System.out.println(data);
         ctx.writeAndFlush(msg);
     }
 }

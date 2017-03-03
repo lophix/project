@@ -36,7 +36,6 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         if (!checkData(msg, data.getCheckCode())) {
             data.setDirtyData(true);
         }
-        msg.clear();
         out.add(data);
     }
 
@@ -55,7 +54,6 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         dataPack.setCarId(analysisCarId(msg));
         dataPack.setEncryptType(msg.readByte());
         dataPack.setDataLength(analysisDataLength(msg));
-        log.info("the data length is {}", dataPack.getDataLength());
         dataPack.setData(getDataBytes(msg, dataPack.getDataLength()));
         dataPack.setCheckCode(msg.readByte());
         return dataPack;
@@ -99,7 +97,11 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
     private byte[] getDataBytes(ByteBuf byteBuf, int dataLength) {
         log.info("data length is {}", dataLength);
         byte[] bytes = new byte[dataLength];
-        for (int i = 0; i < bytes.length; i++) {
+        int length = byteBuf.readableBytes();
+        if (length > dataLength){
+            length = dataLength;
+        }
+        for (int i = 0; i < length; i++) {
             bytes[i] = byteBuf.readByte();
         }
         return bytes;
