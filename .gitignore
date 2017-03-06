@@ -3,6 +3,4 @@
 /log/
 .idea
 .settings
-project-webserver/project-webserver.iml
-project-core/project-core.iml
-project-fire/project-fire.iml
+*.iml
