@@ -20,8 +20,8 @@ public class MyCharTest {
     private static String decimalToHex(int num) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 8; i++) {
-            int index = (num >> (7 - i) * 4) & 0xf;
-            if (index ==0 && sb.length() == 0){
+            int index = (num >>> (7 - i) * 4) & 0xf;
+            if (index == 0 && sb.length() == 0) {
                 continue;
             }
             sb.append(HEX_SYMBOL[index]);
