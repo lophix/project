@@ -36,6 +36,7 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         if (!checkData(msg, data.getCheckCode())) {
             data.setDirtyData(true);
         }
+        msg.skipBytes(1);
         out.add(data);
     }
 

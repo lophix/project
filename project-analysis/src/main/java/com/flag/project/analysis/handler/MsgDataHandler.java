@@ -25,5 +25,6 @@ public class MsgDataHandler extends SimpleChannelInboundHandler<Object> {
         obj.setKey(2);
         GbCanEntity canEntity = analysisGb.analysisFrames(obj);
         System.out.println(canEntity);
+        ctx.writeAndFlush("good");
     }
 }
