@@ -22,6 +22,7 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
     private static final Logger log = LogManager.getLogger(MsgDataDecoder.class);
 
     static final int MSG_MIN_LENGTH = 25;
+    static final int CAR_ID_LENGTH = 17;
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf msg, List<Object> out) throws Exception {
@@ -36,11 +37,23 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         if (!checkData(msg, data.getCheckCode())) {
             data.setDirtyData(true);
         }
-        msg.skipBytes(1);
         out.add(data);
     }
 
-    static final int CAR_ID_LENGTH = 17;
+    /**
+     * escape bytes , if there have 0xff 0xfc bytes
+     * it will be escaped to 0x23 0x23 bytes
+     *
+     * @param bytes source bytes array
+     */
+    private void bytesEscape(byte[] bytes) {
+        for (int i = 0; i < bytes.length - 1; i++) {
+            if (bytes[i] == (byte) 0xff && bytes[i + 1] == (byte) 0xfc) {
+                bytes[i] = 0x23;
+                bytes[i + 1] = 0x23;
+            }
+        }
+    }
 
     /**
      * first level analysis
@@ -71,6 +84,7 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = byteBuf.readByte();
         }
+        bytesEscape(bytes);
         return ByteAnalysisUtil.bytes2Short(bytes, 0);
     }
 
@@ -85,6 +99,7 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         for (int i = 0; i < bytes.length; i++) {
             bytes[i] = byteBuf.readByte();
         }
+        bytesEscape(bytes);
         return ByteAnalysisUtil.bytes2String(bytes);
     }
 
@@ -99,12 +114,13 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         log.info("data length is {}", dataLength);
         byte[] bytes = new byte[dataLength];
         int length = byteBuf.readableBytes();
-        if (length > dataLength){
+        if (length > dataLength) {
             length = dataLength;
         }
         for (int i = 0; i < length; i++) {
             bytes[i] = byteBuf.readByte();
         }
+        bytesEscape(bytes);
         return bytes;
     }
 
@@ -122,6 +138,7 @@ public class MsgDataDecoder extends ByteToMessageDecoder {
         for (int i = 0; i < checkLength; i++) {
             check ^= byteBuf.readByte();
         }
+        byteBuf.skipBytes(1);
         return check == checkCode;
     }
 }
