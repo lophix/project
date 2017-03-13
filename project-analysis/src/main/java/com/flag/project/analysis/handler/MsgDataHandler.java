@@ -22,7 +22,7 @@ public class MsgDataHandler extends SimpleChannelInboundHandler<Object> {
         DataPackage data = (DataPackage) msg;
         ProtocolObject obj = new ProtocolObject();
         obj.setAttrBytes(data.getData());
-        obj.setKey(2);
+        obj.setKey(data.getCmm());
         GbCanEntity canEntity = analysisGb.analysisFrames(obj);
         System.out.println(canEntity);
         ctx.writeAndFlush("good");
