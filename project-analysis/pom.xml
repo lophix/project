@@ -23,11 +23,20 @@
     <packaging>jar</packaging>
     <artifactId>project-analysis</artifactId>
 
+    <properties>
+        <kafka-clients-version>0.10.2.0</kafka-clients-version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>project</groupId>
             <artifactId>project-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka-clients-version}</version>
         </dependency>
     </dependencies>
 

@@ -45,7 +45,7 @@ public class GbAnalysisService implements IAnalysisGb {
      */
     private void doAnalysis(ProtocolObject protocolObject, GbCanEntity canEntity) {
         String dateStr = getDateStr(protocolObject.getAttrBytes(), 0, 6);
-        System.out.println(dateStr);
+//        System.out.println(dateStr);
 //            canEntity.setsTime(ByteAnalysisUtil.yyMMddHHmmss.parse(dateStr).getTime());
         doNextAnalysis(protocolObject.getAttrBytes(), 6, canEntity);
     }
