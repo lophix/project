@@ -40,6 +40,7 @@
         <protobuf.vrsion>3.1.0</protobuf.vrsion>
         <mysql.connector.version>5.1.39</mysql.connector.version>
         <c3p0.version>0.9.5.2</c3p0.version>
+        <jackson-version>2.8.7</jackson-version>
     </properties>
 
     <profiles>
@@ -57,7 +58,11 @@
     <url>https://mvnrepository.com/artifact</url>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
