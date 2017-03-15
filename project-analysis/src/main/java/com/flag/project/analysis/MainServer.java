@@ -30,14 +30,12 @@ public class MainServer {
 
     private static void startKafkaConsumer(){
         KafkaConsumerLaunch launch = new KafkaConsumerLaunch();
-        Consumer<String, byte[]> consumer = launch.getKafkaConsumer();
+        Consumer<String, String> consumer = launch.getKafkaConsumer();
         consumer.subscribe(Collections.singleton(TopicEnum.TOPIC_TE.getValue()));
         while (true) {
-            LOG.info("will poll from kafka");
-            ConsumerRecords<String, byte[]> records = consumer.poll(100);
-            LOG.info("======= poll complete, {}", records.isEmpty());
-            for (ConsumerRecord<String, byte[]> record : records)
-                System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+            ConsumerRecords<String, String> records = consumer.poll(100);
+            for (ConsumerRecord<String, String> record : records)
+                LOG.info("offset = {}, key = {}, value = {}", record.offset(), record.key(), record.value());
         }
     }
 }

@@ -21,9 +21,9 @@ public class KafkaConsumerLaunch {
 
     private static final Logger LOG = LogManager.getLogger(KafkaConsumerLaunch.class);
 
-    private Consumer<String, byte[]> consumer;
+    private Consumer<String, String> consumer;
 
-    public Consumer<String, byte[]> getKafkaConsumer() {
+    public Consumer<String, String> getKafkaConsumer() {
         if (consumer == null) {
             Properties prop = new Properties();
             try {
