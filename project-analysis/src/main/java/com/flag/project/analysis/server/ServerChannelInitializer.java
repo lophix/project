@@ -30,7 +30,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         log.info("init netty pipeline");
-        ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO))
+        ch.pipeline()/*.addLast(new LoggingHandler(LogLevel.INFO))*/
                 .addLast(new ReadTimeoutHandler(90, TimeUnit.SECONDS))
                 .addLast(new LengthFieldBasedFrameDecoder(ByteOrder.BIG_ENDIAN, 65535, 22, 2, 1, 0, true))
                 .addLast(new MsgDataDecoder())
