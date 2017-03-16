@@ -33,7 +33,9 @@ public class KafkaConsumerProxy<K, V> {
     }
 
     public void close() {
-        consumer.close();
+        if (consumer != null) {
+            consumer.close();
+        }
         isClose = true;
     }
 
