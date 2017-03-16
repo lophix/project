@@ -10,6 +10,7 @@
         <module>project-fire</module>
         <module>project-core</module>
         <module>project-analysis</module>
+        <module>project-consumer</module>
     </modules>
     <name>maven</name>
     <build>
