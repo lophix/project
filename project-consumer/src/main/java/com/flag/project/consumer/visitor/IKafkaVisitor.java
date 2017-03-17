@@ -3,7 +3,8 @@ package com.flag.project.consumer.visitor;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
 /**
- * abstract visitor
+ * kafka consumer visitor interface
+ * implements this visitor to consume records of kafka
  *
  * @author xuj
  * @version V0.0.1-SNAPSHOT

@@ -32,6 +32,9 @@ public class KafkaConsumerProxy<K, V> {
         this.consumer = getKafkaConsumer();
     }
 
+    /**
+     * close kafka consumer
+     */
     public void close() {
         if (consumer != null) {
             consumer.close();
@@ -39,6 +42,12 @@ public class KafkaConsumerProxy<K, V> {
         isClose = true;
     }
 
+    /**
+     * start consumer
+     *
+     * @param topics  topics that will be subscribed
+     * @param visitor visitor for handle the kafka records
+     */
     public void startConsumer(Collection<String> topics, IKafkaVisitor<K, V> visitor) {
         consumer.subscribe(topics);
         while (!isClose) {
@@ -49,14 +58,29 @@ public class KafkaConsumerProxy<K, V> {
         }
     }
 
+    /**
+     * get poll timeout milli
+     *
+     * @return the poll timeout milli,default is 1000ms
+     */
     public int getMilliForPoll() {
         return milliForPoll;
     }
 
+    /**
+     * set poll timeout milli
+     *
+     * @param milliForPoll the timeout of poll,default is 1000ms
+     */
     public void setMilliForPoll(int milliForPoll) {
         this.milliForPoll = milliForPoll;
     }
 
+    /**
+     * get kafka consumer
+     *
+     * @return kafka consumer instance
+     */
     private Consumer<K, V> getKafkaConsumer() {
         if (consumer == null) {
             Properties prop = new Properties();
