@@ -6,11 +6,11 @@
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>project-webserver</module>
         <module>project-fire</module>
         <module>project-core</module>
         <module>project-analysis</module>
         <module>project-consumer</module>
+        <module>project-test</module>
     </modules>
     <name>maven</name>
     <build>
@@ -28,19 +28,12 @@
     </build>
 
     <properties>
-        <hadoop.minikdc.version>2.7.1</hadoop.minikdc.version>
         <junit.version>4.12</junit.version>
-        <mrunit.version>1.1.0</mrunit.version>
-        <hadoop.common.version>2.7.3</hadoop.common.version>
         <guava.version>19.0</guava.version>
-        <jboss.version>1.4.11.Final</jboss.version>
         <log4j.version>2.8</log4j.version>
         <slf4j.version>1.7.21</slf4j.version>
         <log4j-slf4j-impl.version>2.7</log4j-slf4j-impl.version>
-        <netty.all.version>4.1.5.Final</netty.all.version>
-        <protobuf.vrsion>3.1.0</protobuf.vrsion>
-        <mysql.connector.version>5.1.39</mysql.connector.version>
-        <c3p0.version>0.9.5.2</c3p0.version>
+        <apache-commons-lang3>3.4</apache-commons-lang3>
     </properties>
 
     <profiles>
@@ -59,56 +52,17 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.mrunit/mrunit -->
-        <dependency>
-            <groupId>org.apache.mrunit</groupId>
-            <artifactId>mrunit</artifactId>
-            <version>${mrunit.version}</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-core -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-mapreduce-client-core</artifactId>
-            <version>${hadoop.common.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>${hadoop.common.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling -->
-        <dependency>
-            <groupId>org.jboss.marshalling</groupId>
-            <artifactId>jboss-marshalling</artifactId>
-            <version>${jboss.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling-serial -->
-        <dependency>
-            <groupId>org.jboss.marshalling</groupId>
-            <artifactId>jboss-marshalling-serial</artifactId>
-            <version>${jboss.version}</version>
-        </dependency>
-
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -122,34 +76,12 @@
             <version>${log4j.version}</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
         <dependency>
-            <groupId>com.google.protobuf</groupId>
-            <artifactId>protobuf-java</artifactId>
-            <version>${protobuf.vrsion}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache-commons-lang3}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${netty.all.version}</version>
-        </dependency>
-
-        <!-- c3p0-->
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>${c3p0.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
