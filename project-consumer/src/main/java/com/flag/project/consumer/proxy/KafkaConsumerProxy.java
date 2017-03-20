@@ -20,7 +20,7 @@ import java.util.Properties;
  * @version V0.0.1-SNAPSHOT
  * @since 2017-03-16-14:58
  */
-public class KafkaConsumerProxy<K, V> {
+public class KafkaConsumerProxy<K, V> implements AutoCloseable {
     private static final Logger LOG = LogManager.getLogger(KafkaConsumerProxy.class);
 
     private Consumer<K, V> consumer;
@@ -35,6 +35,7 @@ public class KafkaConsumerProxy<K, V> {
     /**
      * close kafka consumer
      */
+    @Override
     public void close() {
         if (consumer != null) {
             consumer.close();
