@@ -40,7 +40,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <log4j2.rootlevel>INFO</log4j2.rootlevel>
+                <log4j2-root-level>INFO</log4j2-root-level>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>

@@ -26,7 +26,7 @@
 
     </Appenders>
     <Loggers>
-        <Root level="${log4j2.rootlevel}">
+        <Root level="${log4j2-root-level}">
             <AppenderRef ref="RollingFile" />
             <AppenderRef ref="Console" level="INFO"/>
         </Root>
