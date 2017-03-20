@@ -1,4 +1,4 @@
-package com.flag.project.analysis.entity.enums;
+package com.flag.project.consumer.enums;
 
 /**
  * kafka topic enums
