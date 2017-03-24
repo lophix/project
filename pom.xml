@@ -14,8 +14,23 @@
     </modules>
     <name>maven</name>
     <build>
-        <sourceDirectory>src</sourceDirectory>
         <plugins>
+            <plugin>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <resourceBundles>
+                        <resourceBundle>project:project-core:${project.version}</resourceBundle>
+                    </resourceBundles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
@@ -40,7 +55,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <log4j2.rootlevel>INFO</log4j2.rootlevel>
+                <log4j2-root-level>INFO</log4j2-root-level>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
