@@ -1,6 +1,8 @@
 package com.flag.project.analysis.util;
 
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
 /**
@@ -152,5 +154,35 @@ public class ByteAnalysisUtil {
      */
     public static int bit2Int(String bit) {
         return Integer.parseUnsignedInt(bit, 2);
+    }
+
+    /**
+     * convert string to bcd, this is a big endian method
+     *
+     * @param str   time string  yyMMddHHmmss
+     * @param bytes  byte array
+     * @param offset offset，convert start from bytes[offset]
+     * @param length convert length of the bytes
+     */
+    private void bigEndianConvertStrToBcdBytes(@NotNull String str, byte[] bytes, int offset, int length) {
+        int index = 0;
+        for (int i = 0; i < length; i++) {
+            bytes[offset + i] |= (Integer.valueOf(str.substring(index, ++index)) & 0xff) << 4;
+            bytes[offset + i] |= Integer.valueOf(str.substring(index, ++index)) & 0xff;
+        }
+    }
+
+    /**
+     * convert bit to byte, 1 or 0 , this is a big endian method
+     * the method for operate the byte as one bit
+     *
+     * @param bit 1 or 0
+     * @param index index of the byte
+     * @param theByte byte
+     * @return byte
+     */
+    public static byte bigEndianBitToByte(int bit, int index, byte theByte){
+        theByte |= (bit << (7 - index));
+        return theByte;
     }
 }
