@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <properties>
         <property name="logPath">log</property>
-        <property name="log4j2-root-level">INFO</property>
+        <property name="log4j2-root-level">${log4j2-root-level}</property>
     </properties>
     <Appenders>
 
