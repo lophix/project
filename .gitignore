@@ -1,6 +1,6 @@
 /bin/
 /target/
 /log/
-.idea
+.idea/
 .settings
 *.iml

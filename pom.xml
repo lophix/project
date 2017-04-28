@@ -11,6 +11,7 @@
         <module>project-analysis</module>
         <module>project-consumer</module>
         <module>project-test</module>
+        <module>project-website</module>
     </modules>
     <name>maven</name>
     <build>
@@ -56,6 +57,8 @@
             <id>test</id>
             <properties>
                 <log4j2-root-level>INFO</log4j2-root-level>
+                <jdbc-driver-class>com.mysql.jdbc.Driver</jdbc-driver-class>
+                <jdbc-url></jdbc-url>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -77,12 +80,6 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j-version}</version>
         </dependency>
 
         <dependency>
