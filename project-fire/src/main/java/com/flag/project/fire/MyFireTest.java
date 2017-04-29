@@ -1,8 +1,5 @@
 package com.flag.project.fire;
 
-import com.flag.project.core.SpringConfigLoader;
-import org.springframework.context.ApplicationContext;
-
 /**
  * @Description
  * @Author xuj
@@ -11,7 +8,5 @@ import org.springframework.context.ApplicationContext;
  */
 public class MyFireTest {
     public static void main(String[] args) {
-        ApplicationContext context = SpringConfigLoader.context;
-        System.out.println(context);
     }
 }
