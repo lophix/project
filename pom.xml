@@ -41,16 +41,13 @@
             <id>test</id>
             <properties>
                 <log4j2-root-level>INFO</log4j2-root-level>
-                <jdbc-driver-class>com.mysql.jdbc.Driver</jdbc-driver-class>
-                <jdbc-url></jdbc-url>
+                <mongodb-hosts>192.168.88.133</mongodb-hosts>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
     </profiles>
-
-    <url>https://mvnrepository.com/artifact</url>
 
     <dependencies>
 

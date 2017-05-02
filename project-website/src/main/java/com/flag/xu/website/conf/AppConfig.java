@@ -1,7 +1,8 @@
 package com.flag.xu.website.conf;
 
-import org.apache.commons.dbcp2.BasicDataSource;
+import com.flag.xu.website.mongodb.MongoConnectPool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -16,9 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2017-04-28-13:56
  */
 @Configuration
-@ComponentScan(value = "com.flag.xu.website", excludeFilters = {@ComponentScan.Filter(Controller.class)})
+@ComponentScan(value = "com.flag.xu.website", excludeFilters = {@ComponentScan.Filter({Controller.class})})
 @PropertySource("classpath:profile.properties")
-@EnableTransactionManagement
 public class AppConfig {
 
     private Environment env;
@@ -28,11 +28,8 @@ public class AppConfig {
         this.env = environment;
     }
 
-//    @Bean
-    public BasicDataSource createBasicDataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(env.getProperty("jdbc-driver-class"));
-        dataSource.setUrl(env.getProperty("jdbc-url"));
-        return dataSource;
+    @Bean
+    public MongoConnectPool createMongoConnectPool() {
+        return MongoConnectPool.build(env.getProperty("mongodb-hosts"));
     }
 }
