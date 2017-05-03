@@ -29,7 +29,7 @@ public class HelloController {
     @RequestMapping("/hello.html")
     public String hello(){
         LOG.info("welcome to hello method {}", System::currentTimeMillis);
-        testMongoDbRepository.insert();
+//        testMongoDbRepository.insert();
         return "hello";
     }
 }

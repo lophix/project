@@ -41,7 +41,7 @@
             <id>test</id>
             <properties>
                 <log4j2-root-level>INFO</log4j2-root-level>
-                <mongodb-hosts>192.168.88.133</mongodb-hosts>
+                <mongodb-hosts>192.168.88.133:27017</mongodb-hosts>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>

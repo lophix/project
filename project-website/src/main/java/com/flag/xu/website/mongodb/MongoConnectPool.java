@@ -72,7 +72,7 @@ public class MongoConnectPool implements AutoCloseable {
     }
 
     @NotNull
-    private MongoClientSettings buildMongoClientSettings(String mongodbHosts) {
+    private MongoClientSettings buildMongoClientSettings(@NotNull String mongodbHosts) {
         return MongoClientSettings.builder().clusterSettings(buildClusterSettings(mongodbHosts)).build();
     }
 
@@ -81,7 +81,12 @@ public class MongoConnectPool implements AutoCloseable {
         String[] hosts = mongodbHosts.split(",");
         List<ServerAddress> hostAddresses = new ArrayList<>(hosts.length);
         for (String host : hosts) {
-            hostAddresses.add(new ServerAddress(host));
+            String[] hostAndPort = host.split(":");
+            if (hostAndPort.length == 2) {
+                hostAddresses.add(new ServerAddress(hostAndPort[0], Integer.valueOf(hostAndPort[1])));
+            } else {
+                hostAddresses.add(new ServerAddress(host));
+            }
         }
         return ClusterSettings.builder().hosts(hostAddresses).build();
     }
