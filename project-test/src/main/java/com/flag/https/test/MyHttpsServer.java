@@ -19,8 +19,8 @@ public class MyHttpsServer extends MyHttpsBase {
 
     private MyCertificateCodec codec = new MyCertificateCodec();
 
-    static DataInputStream in;
-    static DataOutputStream out;
+    DataInputStream in;
+    DataOutputStream out;
     static String hash;
     static Key key;
     static ExecutorService executorService = Executors.newCachedThreadPool();
@@ -30,13 +30,14 @@ public class MyHttpsServer extends MyHttpsBase {
     }
 
     public static void main(String args[]) throws Exception {
-        MyHttpsServer server = new MyHttpsServer("SunX509");
+        MyHttpsServer server = new MyHttpsServer("X509");
         int port = 80;
         ServerSocket ss = ServerSocketFactory.getDefault().createServerSocket(port);
         ss.setReceiveBufferSize(102400);
         ss.setReuseAddress(false);
         while (true) {
             try {
+                System.out.println("server started! bind port " + port);
                 final Socket s = ss.accept();
                 server.doHttpsShakeHands(s);
                 executorService.execute(server::doSocketTransport);

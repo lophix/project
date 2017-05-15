@@ -20,35 +20,39 @@ public class MyCertificateManager {
 
     private final CertificateFactory factory;
 
-    public MyCertificateManager(String type) throws CertificateException {
+    private static final String HTTPS_KEYSTORE_PATH = "C:\\https.keystore";
+
+    private static final String CRT_PATH = "C:\\lazylit.crt";
+
+    MyCertificateManager(String type) throws CertificateException {
         this.factory = CertificateFactory.getInstance(type);
     }
 
-    public byte[] readCertificates() throws Exception {
-        Certificate cate = factory.generateCertificate(Files.newInputStream(Paths.get("C:\\lazylit.crt")));
+    byte[] readCertificates() throws Exception {
+        Certificate cate = factory.generateCertificate(Files.newInputStream(Paths.get(CRT_PATH)));
         return cate.getEncoded();
     }
 
     public byte[] readPrivateKey() throws Exception {
         KeyStore store = KeyStore.getInstance("JKS");
-        store.load(Files.newInputStream(Paths.get("C:\\https.store")), "lazylit".toCharArray());
+        store.load(Files.newInputStream(Paths.get(HTTPS_KEYSTORE_PATH)), "lazylit".toCharArray());
         PrivateKey pk = (PrivateKey) store.getKey("lazylit", "lazylit".toCharArray());
         return pk.getEncoded();
     }
 
-    public PrivateKey readPrivateKeys() throws Exception {
+    PrivateKey readPrivateKeys() throws Exception {
         KeyStore store = KeyStore.getInstance("JKS");
-        store.load(Files.newInputStream(Paths.get("C:\\https.store")), "lazylit".toCharArray());
+        store.load(Files.newInputStream(Paths.get(HTTPS_KEYSTORE_PATH)), "lazylit".toCharArray());
         return (PrivateKey) store.getKey("lazylit", "lazylit".toCharArray());
 
     }
 
-    public PublicKey readPublicKeys() throws Exception {
-        Certificate cate = factory.generateCertificate(Files.newInputStream(Paths.get("C:\\lazylit.crt")));
+    PublicKey readPublicKeys() throws Exception {
+        Certificate cate = factory.generateCertificate(Files.newInputStream(Paths.get(CRT_PATH)));
         return cate.getPublicKey();
     }
 
-    public Certificate createCertiface(byte b[]) throws Exception {
+    Certificate createCertificate(byte b[]) throws Exception {
         return factory.generateCertificate(new ByteArrayInputStream(b));
     }
 

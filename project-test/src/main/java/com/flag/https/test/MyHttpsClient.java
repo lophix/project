@@ -23,7 +23,7 @@ public class MyHttpsClient extends MyHttpsBase {
     }
 
     public static void main(String args[]) throws Exception {
-        MyHttpsClient client = new MyHttpsClient("SunX509");
+        MyHttpsClient client = new MyHttpsClient("X509");
         int port = 80;
         Socket s = new Socket("localhost", port);
         s.setReceiveBufferSize(102400);
@@ -54,7 +54,7 @@ public class MyHttpsClient extends MyHttpsBase {
         //第二步 客户端验证服务器端证书是否合法
         int skip = in.readInt();
         byte[] certificate = SocketUtils.readBytes(in, skip);
-        java.security.cert.Certificate cc = manager.createCertiface(certificate);
+        java.security.cert.Certificate cc = manager.createCertificate(certificate);
 
         publicKey = cc.getPublicKey();
         cc.verify(publicKey);
