@@ -3,6 +3,7 @@ package com.flag.test.lock;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @Authuor Administrator
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LockTestMain {
     public int s = 0;
+    ReentrantLock lock = new ReentrantLock();
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -17,28 +19,30 @@ public class LockTestMain {
         executor.submit(new TestThread("thread - 1 : "));
         executor.submit(new TestThread("thread - 2 : "));
         executor.shutdown();
-        if (!executor.awaitTermination(5000, TimeUnit.MILLISECONDS)){
+        if (!executor.awaitTermination(5000, TimeUnit.MILLISECONDS)) {
             executor.shutdownNow();
         }
         System.out.println(KeyCommonClass.l.s);
     }
 }
 
-class TestThread implements Runnable{
+class TestThread implements Runnable {
 
     private String name;
 
-    public TestThread(String name){
+    public TestThread(String name) {
         this.name = name;
     }
 
     @Override
     public void run() {
         for (int i = 0; i < 10; i++) {
-            synchronized (KeyCommonClass.l){
-                KeyCommonClass.l.s++;
-                System.out.println(name + KeyCommonClass.l.s);
-            }
+//            synchronized (KeyCommonClass.l){
+            KeyCommonClass.l.lock.lock();
+            KeyCommonClass.l.s++;
+            System.out.println(name + KeyCommonClass.l.s);
+            KeyCommonClass.l.lock.unlock();
+//            }
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -49,5 +53,5 @@ class TestThread implements Runnable{
 }
 
 class KeyCommonClass {
-    public final static LockTestMain l = new LockTestMain();
+    public static LockTestMain l = new LockTestMain();
 }
