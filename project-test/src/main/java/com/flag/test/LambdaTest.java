@@ -1,8 +1,9 @@
 package com.flag.test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Description
@@ -13,7 +14,8 @@ import java.util.List;
 public class LambdaTest {
     public static void main(String[] args) {
 //        printIterator();
-        testBreak();
+//        testBreak();
+        printFilter();
     }
 
     private static void printIterator(){
@@ -36,5 +38,23 @@ public class LambdaTest {
             }
             System.out.println(s);
         });
+    }
+
+    private static void printFilter() {
+        List<Map<String, String>> data = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Map<String, String> tempMap = new HashMap<>();
+            if (i % 2 == 0) {
+                tempMap.put("1", "1");
+                tempMap.put(i + "", i + "");
+            } else {
+                tempMap.put("1", "");
+            }
+            data.add(tempMap);
+        }
+
+        data = data.stream().filter(map -> StringUtils.isNotEmpty(map.get("1"))).collect(Collectors.toList());
+
+        System.out.println(data.size());
     }
 }
