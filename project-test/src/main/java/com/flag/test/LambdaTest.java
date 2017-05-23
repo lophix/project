@@ -49,12 +49,20 @@ public class LambdaTest {
                 tempMap.put(i + "", i + "");
             } else {
                 tempMap.put("1", "");
+                tempMap.put("2", "");
             }
             data.add(tempMap);
         }
 
-        data = data.stream().filter(map -> StringUtils.isNotEmpty(map.get("1"))).collect(Collectors.toList());
+        data = data.stream().filter(map -> StringUtils.isNotEmpty(map.get("1")))
+                .map(map -> {
+                    if (StringUtils.isEmpty(map.get("2"))) {
+                        map.put("2", "2");
+                    }
+                    return  map;
+                }).collect(Collectors.toList());
 
         System.out.println(data.size());
+        data.forEach(System.out::println);
     }
 }
