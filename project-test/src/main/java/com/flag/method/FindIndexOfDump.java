@@ -3,6 +3,8 @@ package com.flag.method;
 import java.util.*;
 
 /**
+ * 对给定的一个字符串，找出有重复的字符，并给出其位置，如：abcaaAB12ab12 输出：a，1；a，4；a，5；a，10，b，2；b，11，1，8；1，12， 2，9；2，13。
+ *
  * @author xuj
  * @since 2017-06-12-16:50
  */

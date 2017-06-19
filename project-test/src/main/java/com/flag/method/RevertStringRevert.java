@@ -3,6 +3,8 @@ package com.flag.method;
 import java.util.Scanner;
 
 /**
+ * 给出一个长度不超过1000的字符串，判断它是不是回文(顺读，逆读均相同)的。
+ *
  * @author xuj
  * @since 2017-06-19-14:47
  */
