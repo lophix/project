@@ -11,6 +11,7 @@
         <module>project-analysis</module>
         <module>project-consumer</module>
         <module>project-test</module>
+        <module>scala</module>
     </modules>
     <name>maven</name>
     <build>
