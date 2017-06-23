@@ -9,7 +9,7 @@ import java.util.*;
 
 /**
  * N阶楼梯上楼问题：一次可以走两阶或一阶，问有多少种上楼方式。（要求采用非递归）
- *
+ * <p>
  * 根本不是正解,如果不是从1顺序输入结果就是错误的
  *
  * @author xuj
@@ -31,7 +31,7 @@ public class StepOnStep {
     }
 
     @Test
-    public void test(){
+    public void test() {
         DateFormat dateFormat = new SimpleDateFormat("HHmmss");
         try {
             Date start = dateFormat.parse("113630");
@@ -43,7 +43,7 @@ public class StepOnStep {
         }
     }
 
-    private boolean isInRang(Date currDate , Date rangStart , Date rangeEnd){
+    private boolean isInRang(Date currDate, Date rangStart, Date rangeEnd) {
         Calendar currCal = convertDateToCalendar(currDate);
         Calendar startCal = convertDateToCalendar(rangStart);
         Calendar endRange = convertDateToCalendar(rangeEnd);
@@ -54,11 +54,10 @@ public class StepOnStep {
 
         boolean startR = currHours > startCal.get(Calendar.HOUR_OF_DAY) || currHours == startCal.get(Calendar.HOUR_OF_DAY) && currMint >= startCal.get(Calendar.MINUTE);
         boolean endR = currHours < endRange.get(Calendar.HOUR_OF_DAY) || currHours == endRange.get(Calendar.HOUR_OF_DAY) && currMint <= endRange.get(Calendar.MINUTE);
-        boolean b1 = startR&& endR;
-        return b1;
+        return startR && endR;
     }
 
-    private Calendar convertDateToCalendar(Date data){
+    private Calendar convertDateToCalendar(Date data) {
         Calendar curr = Calendar.getInstance();
         curr.setTime(data);
         return curr;
