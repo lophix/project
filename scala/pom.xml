@@ -11,5 +11,8 @@
 
     <artifactId>scala</artifactId>
 
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+    </build>
 
 </project>
