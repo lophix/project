@@ -1,5 +1,6 @@
 package com.flag.test.reflect;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,8 +16,21 @@ public class ReflectTestMain {
     public static void main(String[] args) throws Exception {
 //        Class clz = Class.forName("com.flag.test.reflect.MyPrivateObject");
 //        Class<MyPrivateObject> cls = MyPrivateObject.class;
-        MyPrivateObject obj = reflectMethod(MyPrivateObject.class);
-        System.out.println("print from main method : " + obj.getName() + "\t" + obj.getPassword());
+//        MyPrivateObject obj = reflectMethod(MyPrivateObject.class);
+        Class<RealPrivateClass> clz = RealPrivateClass.class;
+        Constructor<?>[] classConstructors = clz.getDeclaredConstructors();
+        RealPrivateClass obj = null;
+        for (Constructor<?> constructor : classConstructors) {
+            if (obj == null) {
+                constructor.setAccessible(true);
+                obj = (RealPrivateClass) constructor.newInstance();
+            }
+        }
+        if (obj != null) {
+            obj.setName("liu");
+            obj.setJob("dps");
+            System.out.println("print from main method : " + obj.getName() + "\t" + obj.getJob());
+        }
     }
 
     private static <T> T reflectMethod(Class<T> clz) throws IllegalAccessException, InstantiationException, InvocationTargetException {
