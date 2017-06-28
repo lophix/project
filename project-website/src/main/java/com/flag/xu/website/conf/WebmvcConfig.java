@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableAspectJAutoProxy
 @EnableWebMvc
-@ComponentScan("com.flag.xu.website.controller")
+@ComponentScan(value = "com.flag.xu.website.controller", includeFilters = {@ComponentScan.Filter({Controller.class})})
 public class WebmvcConfig extends WebMvcConfigurationSupport {
 
     @Bean
