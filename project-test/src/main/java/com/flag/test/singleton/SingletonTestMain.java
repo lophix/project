@@ -13,12 +13,12 @@ public class SingletonTestMain {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         SingletonClass singletonClass = SingletonClass.getInstance();
         singletonClass.setFlag("hello");
-        serialObj(singletonClass);
-        SingletonClass object = (SingletonClass) deserialObj();
+        serializeObj(singletonClass);
+        SingletonClass object = (SingletonClass) deserializeObj();
         System.out.println(object.getFlag() + "\t" + singletonClass.getFlag());
     }
 
-    private static void serialObj(Object obj) throws IOException {
+    private static void serializeObj(Object obj) throws IOException {
 
         try (OutputStream fos = Files.newOutputStream(PathUtil.getPath(SingletonClass.class, "test.txt"));
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
@@ -26,7 +26,7 @@ public class SingletonTestMain {
         }
     }
 
-    private static Object deserialObj() throws IOException, ClassNotFoundException {
+    private static Object deserializeObj() throws IOException, ClassNotFoundException {
         try (InputStream fis = Files.newInputStream(PathUtil.getPath(SingletonClass.class, "test.txt"));
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             return ois.readObject();
