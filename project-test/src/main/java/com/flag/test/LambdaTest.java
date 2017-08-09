@@ -15,7 +15,8 @@ public class LambdaTest {
     public static void main(String[] args) {
 //        printIterator();
 //        testBreak();
-        printFilter();
+//        printFilter();
+        printMapReduce();
     }
 
     private static void printIterator(){
@@ -55,14 +56,24 @@ public class LambdaTest {
         }
 
         data = data.stream().filter(map -> StringUtils.isNotEmpty(map.get("1")))
-                .map(map -> {
+                .peek(map -> {
                     if (StringUtils.isEmpty(map.get("2"))) {
                         map.put("2", "2");
                     }
-                    return  map;
                 }).collect(Collectors.toList());
 
         System.out.println(data.size());
         data.forEach(System.out::println);
+    }
+
+    private static void printMapReduce() {
+        Map<String, String> map = new HashMap<>();
+        map.put("first", "hello");
+        map.put("second", "world");
+        map.put("third", "null");
+        map.put("forth", null);
+        map.put("fifth", "bye");
+        Map<String, String> collect = map.entrySet().stream().filter(entry -> entry.getValue() != null && !"null".equals(entry.getValue())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        System.out.println(collect + "\t" + map);
     }
 }
