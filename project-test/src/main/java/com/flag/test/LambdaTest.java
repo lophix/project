@@ -16,7 +16,7 @@ public class LambdaTest {
 //        printIterator();
 //        testBreak();
 //        printFilter();
-        printMapReduce();
+        printMapFilter();
     }
 
     private static void printIterator(){
@@ -66,7 +66,7 @@ public class LambdaTest {
         data.forEach(System.out::println);
     }
 
-    private static void printMapReduce() {
+    private static void printMapFilter() {
         Map<String, String> map = new HashMap<>();
         map.put("first", "hello");
         map.put("second", "world");
