@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -33,5 +34,15 @@ public class HelloController {
         LOG.info("name by user info is {}, name is {}", userInfo.getName(), name);
 //        testMongoDbRepository.insert();
         return "hello";
+    }
+
+    @ResponseBody
+    @RequestMapping("/bye.do")
+    public UserInfo bye() {
+        UserInfo info = new UserInfo();
+        info.setName("wang");
+        info.setSex("gong");
+        info.setAge(10);
+        return info;
     }
 }

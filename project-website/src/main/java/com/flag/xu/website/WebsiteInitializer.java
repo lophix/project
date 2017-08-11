@@ -31,6 +31,6 @@ public class WebsiteInitializer implements WebApplicationInitializer {
 
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/welcome.jsp", "/welcome.html", "*.html");
+        dispatcher.addMapping("/welcome.jsp", "/welcome.html", "*.html", "*.do", "*.json");
     }
 }
