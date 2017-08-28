@@ -24,6 +24,7 @@
         <mrunit-version>1.1.0</mrunit-version>
         <hadoop-common-version>2.7.3</hadoop-common-version>
         <jna-version>4.4.0</jna-version>
+        <metrics-version>4.0.0-alpha1</metrics-version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,12 @@
             <groupId>project</groupId>
             <artifactId>project-analysis</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${metrics-version}</version>
         </dependency>
 
         <dependency>
