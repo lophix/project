@@ -32,7 +32,7 @@ public class HelloController {
     public String hello(UserInfo userInfo, String name){
         LOG.info("welcome to hello method {}", System::currentTimeMillis);
         LOG.info("name by user info is {}, name is {}", userInfo.getName(), name);
-//        testMongoDbRepository.insert();
+        testMongoDbRepository.insert();
         return "hello";
     }
 

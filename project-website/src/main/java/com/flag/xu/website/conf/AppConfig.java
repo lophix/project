@@ -29,6 +29,6 @@ public class AppConfig {
 
     @Bean
     public MongoConnectPool createMongoConnectPool() {
-        return MongoConnectPool.build(env.getProperty("mongodb-hosts"));
+        return MongoConnectPool.getInstance(env.getProperty("mongodb-hosts"));
     }
 }
