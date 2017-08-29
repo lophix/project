@@ -69,13 +69,12 @@ public class BigEndianDecodeUtil {
         System.arraycopy(bytes, offset, b, 0, length);
 
 
-        StringBuffer temp = new StringBuffer(b.length * 2);
-        for (int i = 0; i < b.length; i++) {
-            temp.append((byte) ((b[i] & 0xf0) >>> 4));
-            temp.append((byte) (b[i] & 0x0f));
+        StringBuilder temp = new StringBuilder(b.length * 2);
+        for (byte aB : b) {
+            temp.append((byte) ((aB & 0xf0) >>> 4));
+            temp.append((byte) (aB & 0x0f));
         }
-        String s = temp.toString();
-        return s;
+        return temp.toString();
     }
 
     @Test

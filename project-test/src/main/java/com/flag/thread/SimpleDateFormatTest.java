@@ -38,31 +38,32 @@ public class SimpleDateFormatTest {
         THREAD_POOL.execute(run2);
         THREAD_POOL.shutdown();
     }
-}
 
-class DateNeco {
-    public void concurrentPrint(String time) {
-        try {
-            Date date = SimpleDateFormatTest.DATE_FORMAT_THREAD_LOCAL.get().parse(time);
-            System.out.println("======================>" + date);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    private static final class DateNeco {
+        public void concurrentPrint(String time) {
+            try {
+                Date date = SimpleDateFormatTest.DATE_FORMAT_THREAD_LOCAL.get().parse(time);
+                System.out.println("======================>" + date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void print(String time) {
+            try {
+                System.out.println("<========================" + SimpleDateFormatTest.DATE_FORMAT.parse(time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void fastPrint(Date time) {
+            System.out.println(Thread.currentThread() + "****************" + SimpleDateFormatTest.FAST_DATE_FORMAT.format(time));
+        }
+
+        public void commonPrint(Date time) {
+            System.out.println(Thread.currentThread() + "<===================" + SimpleDateFormatTest.DATE_FORMAT_THREAD_LOCAL.get().format(time));
         }
     }
 
-    public void print(String time) {
-        try {
-            System.out.println("<========================" + SimpleDateFormatTest.DATE_FORMAT.parse(time));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void fastPrint(Date time) {
-        System.out.println(Thread.currentThread() + "****************" + SimpleDateFormatTest.FAST_DATE_FORMAT.format(time));
-    }
-
-    public void commonPrint(Date time) {
-        System.out.println(Thread.currentThread() + "<===================" + SimpleDateFormatTest.DATE_FORMAT_THREAD_LOCAL.get().format(time));
-    }
 }
