@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ha="http://www.spring.flag.com/schema/people"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.spring.flag.com/schema/people http://www.spring.flag.com/schema/people.xsd">
+    <ha:people id="pi" name="超级无敌" age="9"/>
+</beans>
