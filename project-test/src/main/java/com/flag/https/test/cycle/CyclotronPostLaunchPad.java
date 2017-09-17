@@ -137,8 +137,7 @@ public class CyclotronPostLaunchPad {
         String source = URLEncoder.encode(sb.substring(0, sb.length() - 1), "utf-8");
 
         byte[] b = sign(source, "");
-        String serverSign = new String(Base64.encode(b));
-        return serverSign;
+        return new String(Base64.encode(b));
     }
 
 
