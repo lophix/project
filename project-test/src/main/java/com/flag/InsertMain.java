@@ -23,13 +23,7 @@ public class InsertMain {
             StringBuilder sb = new StringBuilder(allCarP.size());
             final int[] i = {0};
             allCarP.stream().filter(StringUtils::isNotBlank).forEach(carP -> {
-                i[0]++;
                 sb.append(carP).append(",");
-                if (i[0] == 10) {
-                    System.out.println(sb);
-                    i[0] = 0;
-                    sb.delete(0, sb.length());
-                }
             });
             s = sb.substring(0, sb.length() - 1);
 //            if (s != null) {
@@ -38,7 +32,7 @@ public class InsertMain {
         } finally {
             System.out.println("ok");
         }
-//        System.out.println(s);
+        System.out.println(s);
         System.out.println("hello");
         List<String> allCarT = Files.readAllLines(path2);
     }
