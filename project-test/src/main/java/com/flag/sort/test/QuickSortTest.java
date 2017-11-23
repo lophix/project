@@ -5,20 +5,20 @@ package com.flag.sort.test;
  * @since 2017-04-20-17:01
  */
 public class QuickSortTest {
-    private static int[] nums = new int[10];
+    private static double[] nums = new double[1000000];
 
     public static void main(String[] args) {
-        randomArray();
-        long startTime = System.nanoTime();
+        ArrayUtils.randomArray(nums);
+        long startTime = System.currentTimeMillis();
         quickSort(nums, 0, nums.length - 1);
-        System.out.println(System.nanoTime() - startTime);
-        printArray();
+        System.out.println("quick cost time : " + (System.currentTimeMillis() - startTime));
+//        printArray();
     }
 
-    private static void quickSort(int[] array, int start, int end) {
+    private static void quickSort(double[] array, int start, int end) {
         int left = start;
         int right = end;
-        int temp = array[left];
+        double temp = array[left];
         while (left < right) {
             while (temp <= array[right] && right > left) {
                 right--;
@@ -41,20 +41,5 @@ public class QuickSortTest {
             int finalRight = right + 1;
             quickSort(array, finalRight, end);
         }
-    }
-
-    private static void printArray() {
-        for (int i : nums) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-    }
-
-    private static void randomArray() {
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = (int) (Math.random() * 100);
-            System.out.print(nums[i] + " ");
-        }
-        System.out.println();
     }
 }
