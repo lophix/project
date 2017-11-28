@@ -22,6 +22,9 @@ public class ArrayUtils {
 
 
     static void exchange(double[] array, int a, int b) {
+        if (a == b) {
+            return;
+        }
         double tmp = array[a];
         array[a] = array[b];
         array[b] = tmp;
