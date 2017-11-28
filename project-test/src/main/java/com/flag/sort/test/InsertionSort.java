@@ -14,12 +14,13 @@ public class InsertionSort {
         double[] nums = new double[1000000];
         randomArray(nums);
 //        printArray(nums);
+        long start = System.currentTimeMillis();
         sort(nums, 0, nums.length);
+        System.out.println("insertion cost time : " + (System.currentTimeMillis() - start));
 //        printArray(nums);
     }
 
     static void sort(double[] array, int offset, int len) {
-        long start = System.currentTimeMillis();
         for (int i = offset + 1; i < len; i++) {
             double current = array[i];
             for (int j = i; j > 0; j--) {
@@ -35,6 +36,5 @@ public class InsertionSort {
                 }
             }
         }
-        System.out.println("insertion cost time : " + (System.currentTimeMillis() - start));
     }
 }
