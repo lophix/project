@@ -10,17 +10,18 @@ import static com.flag.sort.test.ArrayUtils.*;
  */
 public class ShellSort {
     public static void main(String[] args) {
-        double[] nums = new double[32];
+        double[] nums = new double[1024 * 1024];
         randomArray(nums);
 //        printArray(nums);
+        long start = System.currentTimeMillis();
         sort(nums);
+        System.out.println("shell cost time : " + (System.currentTimeMillis() - start));
 //        printArray(nums);
     }
 
     static void sort(double[] array) {
         int n = array.length;
         int h = 1;
-        long start = System.currentTimeMillis();
         while (h < n / 3) h = h * 3 + 1;
         while (h >= 1) {
             for (int i = h; i < n; i++) {
@@ -32,6 +33,5 @@ public class ShellSort {
             }
             h /= 3;
         }
-        System.out.println("shell cost time : " + (System.currentTimeMillis() - start));
     }
 }

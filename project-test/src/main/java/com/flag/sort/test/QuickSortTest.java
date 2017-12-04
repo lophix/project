@@ -7,7 +7,7 @@ import static com.flag.sort.test.ArrayUtils.*;
  * @since 2017-04-20-17:01
  */
 public class QuickSortTest {
-    private static double[] nums = new double[1000000];
+    private static double[] nums = new double[1024 * 1024 * 256];
 
     public static void main(String[] args) {
         ArrayUtils.randomArray(nums);
@@ -55,13 +55,11 @@ public class QuickSortTest {
             InsertionSort.sort(array, start, end + 1);
             return;
         }
-        int p, i, q, j;
-        p = i = start;
-        q = j = end;
-//        double mid = mid(array[start], array[(end -start) / 2], array[end]);
+        int i, p = i = start, j, q = j = end;
+        //        double mid = mid(array[start], array[(end -start) / 2], array[end]);
         int vI = midIndex(array, start, (end - start) / 2, end);
         double mid = array[vI];
-        exchange(array, start, vI);
+        array[vI] = array[start];
         while (i < j) {
 
             while (array[j] >= mid && i < j) {
