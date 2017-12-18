@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 /**
- * this configuration for spring sevlet dispatcher
+ * this configuration for spring servlet dispatcher
  *
  * @author xuj
  * @since 2017-04-28-13:58
