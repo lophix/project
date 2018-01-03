@@ -19,18 +19,20 @@ public class Main {
     private static CountDownLatch SEARCHER_NUMS;
 
     public static void main(String[] args) {
-        String path = "E:\\tcp-logs";
-        if (args.length > 0) {
+        String path = "E:\\logs";
+        String bindCode = "PP20247";
+        if (args.length > 1) {
             path = args[0];
+            bindCode = args[1];
         }
-        submitTask(path);
+        submitTask(path, bindCode);
     }
 
     private static void init(int size) {
         SEARCHER_NUMS = new CountDownLatch(size);
     }
 
-    private static void submitTask(String path) {
+    private static void submitTask(String path, final String bindCode) {
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
             init(paths.filter(Files::isRegularFile).mapToInt(value -> 1).sum());
         } catch (IOException e) {
@@ -39,9 +41,9 @@ public class Main {
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
             paths.filter(Files::isRegularFile).forEach((path1 -> {
                 try {
-                    POOL.submit(new LogSearcher(Files.lines(path1)));
-//                    new LogSearcher(Files.lines(path1)).run();
-                } catch (IOException e) {
+//                    POOL.submit(LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build());
+                    LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build().run();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }));
@@ -49,8 +51,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        POOL.submit(DataAggregator::new);
-//        new DataAggregator().run();
+//        POOL.submit(new DataAggregator());
+        new DataAggregator().run();
         POOL.shutdown();
     }
 
@@ -61,6 +63,8 @@ public class Main {
     }
 
     static void await() throws InterruptedException {
-        SEARCHER_NUMS.await();
+        if (SEARCHER_NUMS != null) {
+            SEARCHER_NUMS.await();
+        }
     }
 }

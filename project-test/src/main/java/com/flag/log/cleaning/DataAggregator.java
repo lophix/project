@@ -15,9 +15,12 @@ import java.util.stream.Stream;
  * @since 2017-12-06-10:25
  */
 public class DataAggregator implements Runnable {
+
     @Override
     public void run() {
-        Path path = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result", "result.txt");if (path == null) {
+        System.out.println("start data aggregator");
+        Path path = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result", "result.txt");
+        if (path == null) {
             return;
         }
         if (Files.notExists(path)) {

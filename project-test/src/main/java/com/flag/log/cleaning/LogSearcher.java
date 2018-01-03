@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
@@ -17,9 +19,11 @@ import java.util.stream.Stream;
  */
 public class LogSearcher implements Runnable {
 
+    private static final Pattern PATTERN = Pattern.compile("\\[\\S+\\-\\d+\\-\\d+\\]");
+
     private Deque<String> linesQueue = new LinkedList<>();
 
-    private Stream<String> fileContent;
+    private final Stream<String> fileContent;
 
     private static final AtomicInteger ID = new AtomicInteger(1);
 
@@ -29,10 +33,24 @@ public class LogSearcher implements Runnable {
 
     private static final String skip2 = "+--------+";
 
-    private static final String FLAG = "7e 02 00";
+    private String targetLine = "INFO  VTMsgHandleTask:190 setCnnAttrToObject - terminal :$bindCode is register ,will update set common info";
 
-    public LogSearcher(Stream<String> fileContent) {
+    private final String bindCode;
+
+    private String searchFlag = "7e 02 00";
+
+
+    public LogSearcher(Stream<String> fileContent, String searchFlag, String targetLine, String bindCode) {
         this.fileContent = fileContent;
+        if (searchFlag != null) {
+            this.searchFlag = searchFlag;
+        }
+        if (targetLine != null) {
+            this.targetLine = targetLine;
+        } else {
+            this.targetLine = this.targetLine.replace("$bindCode", bindCode);
+        }
+        this.bindCode = bindCode;
         fileName = "result" + ID.getAndIncrement();
     }
 
@@ -44,7 +62,8 @@ public class LogSearcher implements Runnable {
             }
             linesQueue.offerFirst(s);
 
-            if (s.contains("INFO  LocationService:45 reportLocation - locationService reportLocation start，bindCode is " + "MP35579")) {
+            if (s.contains(targetLine)) {
+                String checkPoint = getCheckPoint(s);
                 List<String> list = new ArrayList<>(16);
                 Iterator<String> iterator = linesQueue.iterator();
                 while (iterator.hasNext()) {
@@ -53,11 +72,17 @@ public class LogSearcher implements Runnable {
                         list.add(str);
                     } else if (str.startsWith(skip1)) {
                         int skipIndex = skip1.length();
-                        String flag = str.substring(skipIndex, skipIndex + FLAG.length());
-                        if (flag.equals(FLAG)) {
+                        String flag = str.substring(skipIndex, skipIndex + searchFlag.length());
+                        if (flag.equals(searchFlag)) {
                             list.add(str);
-                            for (int i = 0; i < 4; i++) {
+                            int i = 0;
+                            while (iterator.hasNext() && i < 4) {
                                 list.add(iterator.next());
+                                i++;
+                            }
+                            if (checkTarget(list.get(list.size() - 1), checkPoint)) {
+                                list.clear();
+                                continue;
                             }
                             break;
                         } else {
@@ -81,6 +106,20 @@ public class LogSearcher implements Runnable {
         done();
     }
 
+    private boolean checkTarget(String s, String real) {
+        Matcher matcher = PATTERN.matcher(s);
+        return matcher.find() && StringUtils.equals(matcher.group(), real);
+    }
+
+    private String getCheckPoint(String s) {
+        Matcher matcher = PATTERN.matcher(s);
+        if (matcher.find()) {
+            return matcher.group();
+        } else {
+            return null;
+        }
+    }
+
     private void writeFile(List<String> list) {
         if (list == null || list.isEmpty()) {
             return;
@@ -102,5 +141,38 @@ public class LogSearcher implements Runnable {
 
     private void done() {
         Main.done();
+    }
+
+    public static class LogSearcherBuilder {
+        private Stream<String> fileContent;
+
+        private String bindCode;
+
+        private String targetLine;
+
+        private String searchFlag;
+
+        private LogSearcherBuilder(Stream<String> fileContent, String bindCode) {
+            this.fileContent = fileContent;
+            this.bindCode = bindCode;
+        }
+
+        public static  LogSearcherBuilder getBuilder(Stream<String> fileContent, String bindCode) {
+            return new LogSearcherBuilder(fileContent, bindCode);
+        }
+
+        public LogSearcherBuilder targetLine(String targetLine) {
+            this.targetLine = targetLine;
+            return this;
+        }
+
+        public LogSearcherBuilder searchFlag(String searchFlag) {
+            this.searchFlag = searchFlag;
+            return this;
+        }
+
+        public LogSearcher build() {
+            return new LogSearcher(fileContent, searchFlag, targetLine, bindCode);
+        }
     }
 }
