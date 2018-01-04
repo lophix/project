@@ -8,14 +8,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.stream.Stream;
 
-import static com.flag.log.cleaning.PatternConst.DATE_PATTERN;
+import static com.flag.log.cleaning.CommonConst.SIMPLE_DATE_FORMAT_THREAD_LOCAL;
+import static com.flag.log.cleaning.Main.*;
+import static com.flag.log.cleaning.CommonConst.DATE_PATTERN;
 
 /**
  * @author xuj
@@ -26,7 +27,7 @@ public class DataAggregator implements Runnable {
     @Override
     public void run() {
         System.out.println("start data aggregator");
-        Path path = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result", "result.txt");
+        Path path = PathUtil.getPath(resultDir, resultFile);
         if (path == null) {
             return;
         }
@@ -38,7 +39,7 @@ public class DataAggregator implements Runnable {
             }
         }
         await();
-        try (Stream<Path> paths = Files.walk(Paths.get("F:\\07_self\\project\\project-test\\src\\main\\resources\\result\\tmp"))) {
+        try (Stream<Path> paths = Files.walk(Paths.get(tmpDir))) {
             Path finalPath = path;
             paths.filter(Files::isRegularFile).sorted(new LogDateComparator()).forEach(path1 -> {
                 try {
@@ -67,8 +68,6 @@ public class DataAggregator implements Runnable {
     }
 
     private static class LogDateComparator implements Comparator<Path> {
-
-        private static final ThreadLocal<SimpleDateFormat> SIMPLE_DATE_FORMAT_THREAD_LOCAL = ThreadLocal.withInitial(()-> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
         @Override
         public int compare(Path o1, Path o2) {

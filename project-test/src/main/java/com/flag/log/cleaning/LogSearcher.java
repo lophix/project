@@ -7,13 +7,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.stream.Stream;
 
-import static com.flag.log.cleaning.PatternConst.DATE_PATTERN;
-import static com.flag.log.cleaning.PatternConst.THREAD_NAME_PATTERN;
+import static com.flag.log.cleaning.CommonConst.SIMPLE_DATE_FORMAT_THREAD_LOCAL;
+import static com.flag.log.cleaning.Main.getEndTime;
+import static com.flag.log.cleaning.Main.getStartTime;
+import static com.flag.log.cleaning.Main.tmpDir;
+import static com.flag.log.cleaning.CommonConst.DATE_PATTERN;
+import static com.flag.log.cleaning.CommonConst.THREAD_NAME_PATTERN;
 
 /**
  * @author xuj
@@ -59,9 +64,13 @@ public class LogSearcher implements Runnable {
     @Override
     public void run() {
         fileContent.filter(StringUtils::isNotBlank).forEach(s -> {
+
             linesQueueMaintain(s);
 
             if (s.contains(targetLine)) {
+                if (!checkDateLimit(s)) {
+                    return;
+                }
                 String checkPoint = getCheckPoint(s);
                 List<String> list = new ArrayList<>(16);
                 Iterator<String> iterator = linesQueue.iterator();
@@ -131,6 +140,28 @@ public class LogSearcher implements Runnable {
         return searchFlag;
     }
 
+    private boolean checkDateLimit(String source) {
+        boolean result = true;
+        if (getStartTime() != null && getEndTime() != null && getStartTime().compareTo(getEndTime()) > 0) {
+            return false;
+        }
+        Matcher matcher = DATE_PATTERN.matcher(source);
+        try {
+            if (matcher.find()) {
+                Date logDate = SIMPLE_DATE_FORMAT_THREAD_LOCAL.get().parse(matcher.group());
+                if (getStartTime() != null) {
+                    result = getStartTime().compareTo(logDate) <= 0;
+                }
+                if (getEndTime() != null) {
+                    result = getEndTime().compareTo(logDate) >= 0 && result;
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private void linesQueueMaintain(String s) {
         if (linesQueue.size() == LOAD_LINES_NUM) {
             linesQueue.removeLast();
@@ -172,7 +203,7 @@ public class LogSearcher implements Runnable {
         }
         Collections.reverse(list);
         try {
-            Path resultPath = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result\\tmp", fileName);
+            Path resultPath = PathUtil.getPath(tmpDir, fileName);
             if (resultPath == null) {
                 return;
             }
@@ -203,7 +234,7 @@ public class LogSearcher implements Runnable {
             this.bindCode = bindCode;
         }
 
-        public static  LogSearcherBuilder getBuilder(Stream<String> fileContent, String bindCode) {
+        public static LogSearcherBuilder getBuilder(Stream<String> fileContent, String bindCode) {
             return new LogSearcherBuilder(fileContent, bindCode);
         }
 
