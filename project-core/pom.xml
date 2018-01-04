@@ -72,7 +72,7 @@
     <artifactId>project-core</artifactId>
 
     <properties>
-        <spring.version>4.3.6.RELEASE</spring.version>
+        <spring.version>5.0.0.M5</spring.version>
         <dbcp.version>2.1.1</dbcp.version>
         <mybatis.version>3.4.2</mybatis.version>
         <mybatis.spring.version>1.3.1</mybatis.spring.version>

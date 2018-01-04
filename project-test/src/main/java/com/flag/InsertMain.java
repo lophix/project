@@ -24,7 +24,6 @@ public class InsertMain {
             final int[] i = {0};
             allCarP.stream().filter(StringUtils::isNotBlank).forEach(carP -> {
                 sb.append(carP).append(",");
-//                sb.append(carP).append("','");
             });
             s = sb.substring(0, sb.length() - 1);
 //            if (s != null) {

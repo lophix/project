@@ -1,36 +1,43 @@
 package com.flag.sort.test;
 
+import static com.flag.sort.test.ArrayUtils.*;
+
 /**
  * @author xuj
  * @since 2017-04-20-17:01
  */
 public class QuickSortTest {
-    private static int[] nums = new int[10];
+    private static double[] nums = new double[1024 * 1024 * 256];
 
     public static void main(String[] args) {
-        randomArray();
-        long startTime = System.nanoTime();
-        quickSort(nums, 0, nums.length - 1);
-        System.out.println(System.nanoTime() - startTime);
-        printArray();
+        ArrayUtils.randomArray(nums);
+//        printArray(nums);
+        long startTime = System.currentTimeMillis();
+        qSort(nums, 0, nums.length - 1);
+        System.out.println("quick cost time : " + (System.currentTimeMillis() - startTime));
+//        printArray(nums);
     }
 
-    private static void quickSort(int[] array, int start, int end) {
+    private static void quickSort(double[] array, int start, int end) {
+        if (start > end - 10) {
+            InsertionSort.sort(array, start, end + 1);
+            return;
+        }
         int left = start;
         int right = end;
-        int temp = array[left];
+        double mid = mid(array[left], array[right], array[(left + right) / 2]);
         while (left < right) {
-            while (temp <= array[right] && right > left) {
+            while (mid < array[right] && right > left) {
                 right--;
             }
-            array[left] = array[right];
 
-            while (temp >= array[left] && left < right) {
+            while (mid > array[left] && left < right) {
                 left++;
             }
-            array[right] = array[left];
             if (right == left) {
-                array[left] = temp;
+                array[left] = mid;
+            } else {
+                exchange(array, left, right);
             }
         }
         if (start < left - 1) {
@@ -43,18 +50,68 @@ public class QuickSortTest {
         }
     }
 
-    private static void printArray() {
-        for (int i : nums) {
-            System.out.print(i + " ");
+    private static void qSort(double[] array, int start, int end) {
+        if (start >= end - 10) {
+            InsertionSort.sort(array, start, end + 1);
+            return;
         }
-        System.out.println();
+        int i, p = i = start, j, q = j = end;
+        //        double mid = mid(array[start], array[(end -start) / 2], array[end]);
+        int vI = midIndex(array, start, (end - start) / 2, end);
+        double mid = array[vI];
+        array[vI] = array[start];
+        while (i < j) {
+
+            while (array[j] >= mid && i < j) {
+                if (array[j] == mid) {
+                    exchange(array, j, q--);
+                }
+                j--;
+            }
+            array[i] = array[j];
+
+            while (array[i] <= mid && i < j) {
+                if (array[i] == mid) {
+                    exchange(array, i, p++);
+                }
+                i++;
+            }
+            array[j] = array[i];
+//            exchange(array, i, j);
+        }
+        array[i] = mid;
+
+        int left = start;
+        int right = end;
+        int midIndex = i;
+        while (left < i && array[left] == mid) {
+            exchange(array, left++, --i);
+        }
+
+        while (right > j && array[right] == mid) {
+            exchange(array, right--, ++j);
+        }
+        qSort(array, start, midIndex - 1 - p);
+        qSort(array, midIndex + 1 + (end - q), end);
     }
 
-    private static void randomArray() {
-        for (int i = 0; i < nums.length; i++) {
-            nums[i] = (int) (Math.random() * 100);
-            System.out.print(nums[i] + " ");
+    private static int midIndex(double[] array, int first, int second, int third) {
+        if (array[first] > array[second] && array[first] < array[third] || (array[first] > array[third] && array[first] < array[second])) {
+            return first;
+        } else if (array[second] > array[first] && array[second] < array[third] || (array[second] > array[third] && array[second] < array[first])) {
+            return second;
+        } else {
+            return third;
         }
-        System.out.println();
+    }
+
+    private static double mid(double first, double second, double third) {
+        if (first > second && first < third || (first > third && first < second)) {
+            return first;
+        } else if (second > first && second < third || (second > third && second < first)) {
+            return second;
+        } else {
+            return third;
+        }
     }
 }

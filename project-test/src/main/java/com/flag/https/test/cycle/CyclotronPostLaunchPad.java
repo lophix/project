@@ -68,7 +68,7 @@ public class CyclotronPostLaunchPad {
         }, 0, 100, TimeUnit.MILLISECONDS);
     }
 
-    private static void launching() {
+    private static void launching() throws KeyManagementException, NoSuchAlgorithmException {
 //        DefaultSSLClient httpClient = new DefaultSSLClient();
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         EXECUTOR_SERVICE.submit(() -> {
@@ -90,8 +90,8 @@ public class CyclotronPostLaunchPad {
     }
 
     private static HttpPost prepareRequest() throws IOException {
-        HttpPost request = new HttpPost("http://carApi.win-sky.com.cn/timesharing");
-//        HttpPost request = new HttpPost("http://192.168.10.60:8445/timesharing");
+//        HttpPost request = new HttpPost("http://carApi.win-sky.com.cn/timesharing");
+        HttpPost request = new HttpPost("http://192.168.10.60:8445/timesharing");
         request.addHeader("Accept", "*/*");
         request.addHeader("content-type", "application/x-www-form-urlencoded");
         request.addHeader("cache-control", "no-cache");
@@ -99,7 +99,7 @@ public class CyclotronPostLaunchPad {
 
         List<NameValuePair> nvps = new ArrayList<>();
         nvps.add(new BasicNameValuePair("app_id", "201704282300007148"));
-        nvps.add(new BasicNameValuePair("method", "pt102"));
+        nvps.add(new BasicNameValuePair("method", "pt104"));
         nvps.add(new BasicNameValuePair("charset", "utf-8"));
         nvps.add(new BasicNameValuePair("version", "2017-07-03 03:07:50"));
         nvps.add(new BasicNameValuePair("timestamp", new Date().toString()));
@@ -112,17 +112,14 @@ public class CyclotronPostLaunchPad {
     private static String bizContent() throws IOException {
         Map<String, String> map = new HashMap<>();
 //        map.put("carPlate", "粤B00000");
-        map.put("car_type","1");
-        map.put("pot_type", "1");
-//        map.put("opt", "1");
+//        map.put("car_type","1");
 
 //        map.put("device_id", "116502100005188,0001,028000003883,1,11,11001,110010,1102,11111111111111,115262100000501,116232100003372,116232100003741,116232100003742,116232100003743,116232100003744,116232100003745,116232100003746,116232100003747,116232100003749,116232100003750,116232100003751,116232100003752,116232100003753,116232100003755,116232100003756,116232100003758,116232100003759,116232100003760,116232100003761,116232100003762,116232100003999,116232100004000,116232100004001,116232100004002,116232100004003,116232100004004,116232100004005,116232100004006,116232100004007,116232100004008,116232100004009,116232100004010,116232100004011,116232100004012,116232100004013,116232100004014,116232100004015,116232100004016,116232100004017,116232100004018,116232100004019,116232100004020,116232100004021,116232100004022,116232100004023,116232100004024,116232100004025,116232100004026,116232100004027,116232100004028,116232100004596,116232100004597,116232100004599,116232100004601,116232100004603,116232100004604,116232100004607,116232100004610,116232100004611,11623210");
-        map.put("device_id", "4301157");
-//        map.put("deviceId", "3504697");
+        map.put("device_id", "3105474");
         map.put("order_id", UUID.randomUUID().toString());
         map.put("order_auth", "admin");
         map.put("order_live", "20170703191919");
-        map.put("opt", "3");
+        map.put("opt", "5");
 //        map.put("notify_url", "https://127.0.0.1:8443/timesharing");
         return new ObjectMapper().writeValueAsString(map);
     }
@@ -142,7 +139,7 @@ public class CyclotronPostLaunchPad {
         }
         String source = URLEncoder.encode(sb.substring(0, sb.length() - 1), "utf-8");
 
-        byte[] b = sign(source, "jiabai201708");
+        byte[] b = sign(source, "");
         return new String(Base64.encode(b));
     }
 
