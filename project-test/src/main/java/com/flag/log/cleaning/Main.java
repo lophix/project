@@ -41,8 +41,8 @@ public class Main {
         try (Stream<Path> paths = Files.walk(Paths.get(path))) {
             paths.filter(Files::isRegularFile).forEach((path1 -> {
                 try {
-//                    POOL.submit(LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build());
-                    LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build().run();
+                    POOL.submit(LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build());
+//                    LogSearcher.LogSearcherBuilder.getBuilder(Files.lines(path1), bindCode).build().run();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,8 +51,8 @@ public class Main {
             e.printStackTrace();
         }
 
-//        POOL.submit(new DataAggregator());
-        new DataAggregator().run();
+        POOL.submit(new DataAggregator());
+//        new DataAggregator().run();
         POOL.shutdown();
     }
 

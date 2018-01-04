@@ -10,8 +10,10 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import static com.flag.log.cleaning.PatternConst.DATE_PATTERN;
+import static com.flag.log.cleaning.PatternConst.THREAD_NAME_PATTERN;
 
 /**
  * @author xuj
@@ -19,7 +21,7 @@ import java.util.stream.Stream;
  */
 public class LogSearcher implements Runnable {
 
-    private static final Pattern PATTERN = Pattern.compile("\\[\\S+\\-\\d+\\-\\d+\\]");
+    private static final int LOAD_LINES_NUM = 100;
 
     private Deque<String> linesQueue = new LinkedList<>();
 
@@ -27,7 +29,7 @@ public class LogSearcher implements Runnable {
 
     private static final AtomicInteger ID = new AtomicInteger(1);
 
-    private String fileName = "";
+    private String fileName;
 
     private static final String skip1 = "|00000000| ";
 
@@ -57,10 +59,7 @@ public class LogSearcher implements Runnable {
     @Override
     public void run() {
         fileContent.filter(StringUtils::isNotBlank).forEach(s -> {
-            if (linesQueue.size() == 100) {
-                linesQueue.removeLast();
-            }
-            linesQueue.offerFirst(s);
+            linesQueueMaintain(s);
 
             if (s.contains(targetLine)) {
                 String checkPoint = getCheckPoint(s);
@@ -75,17 +74,22 @@ public class LogSearcher implements Runnable {
                         String flag = str.substring(skipIndex, skipIndex + searchFlag.length());
                         if (flag.equals(searchFlag)) {
                             list.add(str);
-                            int i = 0;
-                            while (iterator.hasNext() && i < 4) {
-                                list.add(iterator.next());
-                                i++;
+                            if (addFullLog(iterator, list)) {
+                                break;
                             }
-                            if (checkTarget(list.get(list.size() - 1), checkPoint)) {
+                            if (!checkTarget(list.get(list.size() - 1), checkPoint)) {
                                 list.clear();
                                 continue;
                             }
                             break;
                         } else {
+                            if (addFullLog(iterator, list)) {
+                                break;
+                            }
+                            if (checkTarget(list.get(list.size() - 1), checkPoint)) {
+                                list.clear();
+                                break;
+                            }
                             list.clear();
                         }
                     } else if (!list.isEmpty()) {
@@ -100,19 +104,61 @@ public class LogSearcher implements Runnable {
                         }
                     }
                 }
-                writeFile(list);
+                if (!list.isEmpty()) {
+                    Matcher matcher = DATE_PATTERN.matcher(list.get(list.size() - 1));
+                    if (matcher.find()) {
+                        writeFile(list);
+                    }
+                }
             }
         });
         done();
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public String getTargetLine() {
+        return targetLine;
+    }
+
+    public String getBindCode() {
+        return bindCode;
+    }
+
+    public String getSearchFlag() {
+        return searchFlag;
+    }
+
+    private void linesQueueMaintain(String s) {
+        if (linesQueue.size() == LOAD_LINES_NUM) {
+            linesQueue.removeLast();
+        }
+        linesQueue.offerFirst(s);
+    }
+
+    private <T> boolean addFullLog(Iterator<T> iterator, List<T> list) {
+        boolean fail = false;
+        int i = 0;
+        while (iterator.hasNext() && i < 4) {
+            list.add(iterator.next());
+            i++;
+        }
+        if (i < 4) {
+            list.clear();
+            fail = true;
+        }
+        return fail;
+    }
+
     private boolean checkTarget(String s, String real) {
-        Matcher matcher = PATTERN.matcher(s);
+        Matcher matcher = THREAD_NAME_PATTERN.matcher(s);
         return matcher.find() && StringUtils.equals(matcher.group(), real);
     }
 
     private String getCheckPoint(String s) {
-        Matcher matcher = PATTERN.matcher(s);
+        Matcher matcher = THREAD_NAME_PATTERN.matcher(s);
         if (matcher.find()) {
             return matcher.group();
         } else {
@@ -126,7 +172,7 @@ public class LogSearcher implements Runnable {
         }
         Collections.reverse(list);
         try {
-            Path resultPath = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result\\", fileName);
+            Path resultPath = PathUtil.getPath("F:\\07_self\\project\\project-test\\src\\main\\resources\\result\\tmp", fileName);
             if (resultPath == null) {
                 return;
             }
