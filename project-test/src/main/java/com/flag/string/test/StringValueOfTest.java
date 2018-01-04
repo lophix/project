@@ -1,6 +1,8 @@
 package com.flag.string.test;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author xuj
@@ -13,10 +15,18 @@ public class StringValueOfTest {
 //    }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        while(sc.hasNext()) {
-            System.out.printf("%o\n",sc.nextInt());
-        }
+        System.out.println("polygenelubricants".hashCode());
+        System.out.println(Math.pow(2, 31));
+//        Pattern pattern = Pattern.compile("\\[\\S+\\-\\d+\\-\\d+\\]");
+        Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}");
+        String s = "2017-12-30 04:06:47 [nioEventLoopGroup-3-3] INFO  VTMsgHandleTask:190 setCnnAttrToObject - terminal :PP20247 is register ,will update set common info  ";
+        Matcher matcher = pattern.matcher(s);
+        System.out.println(matcher.find());
+        System.out.println(matcher.group());
+//        Scanner sc = new Scanner(System.in);
+//        while(sc.hasNext()) {
+//            System.out.printf("%o\n",sc.nextInt());
+//        }
     }
 
     public static int getResult(int n) {
