@@ -35,6 +35,9 @@ public class BinaryOutputStream extends OutputStream {
 
     @Override
     public void close() throws IOException {
+        if (bitLen > 0 && bitLen < 8) {
+            out.write(oneByte);
+        }
         out.flush();
         out.close();
     }
